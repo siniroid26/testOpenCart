@@ -1,4 +1,11 @@
 import requests
+def get_external_ip():
+    response = requests.get("http://ipinfo.io/json")
+    data = response.json()
+    return data.get('ip')
+
+external_ip = get_external_ip()
+print(f"Ваш внешний IP-адрес: {external_ip}")
 
 url = 'https://test.aspor.ua/index.php?route=api/login'
 
