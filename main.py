@@ -9,7 +9,7 @@ api_key = 'VqWUxWnOH223DPB1TR1sqnj6wLJofsHQvxjYmr8lJ7FS3torc51Nj0b2msAK3doaNbCXB
 # URL API
 url = 'https://test.aspor.ua'
 
-@app.route('/products', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_products():
     response = requests.get(f'{url}/api/products', headers={'api_name': api_name, 'api_key': api_key})
     products = response.json()
