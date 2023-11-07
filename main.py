@@ -6,24 +6,31 @@ def get_external_ip():
 
 external_ip = get_external_ip()
 print(f"Ваш внешний IP-адрес: {external_ip}")
+import json
 
-url = 'https://test.aspor.ua/index.php?route=api/login'
+# Ваши данные для API
+api_name = 'aspor32'
+api_key = 'VqWUxWnOH223DPB1TR1sqnj6wLJofsHQvxjYmr8lJ7FS3torc51Nj0b2msAK3doaNbCXB8GQtuK2Fr31kbVX7BBtkyC68EoSzCb78Z80jZkABuKHAUtHKNL44yFSUwSmRuzYKG4K8pCFXzStRyuHxTteaw4ggpqUcPEOXjNasNUqp6NxLoTsoNFsfKkc3BOKVsRO5Ip8hNPUFquklnCZrDMKxFyKSWVRSBU48Q0PZ7dB7OnzCzYGN82AuBZOcDsq'
+# URL API
+url = 'https://test.aspor.ua/api/rest/categories'
 
+# Заголовки для запроса
 headers = {
     'Content-Type': 'application/json',
-    'X-Oc-Image-Dimension': '64x64'
+    'Api-Name': api_name,
+    'Api-Key': api_key
 }
 
-data = {
-    'username': 'aspor32',
-    'key': 'VqWUxWnOH223DPB1TR1sqnj6wLJofsHQvxjYmr8lJ7FS3torc51Nj0b2msAK3doaNbCXB8GQtuK2Fr31kbVX7BBtkyC68EoSzCb78Z80jZkABuKHAUtHKNL44yFSUwSmRuzYKG4K8pCFXzStRyuHxTteaw4ggpqUcPEOXjNasNUqp6NxLoTsoNFsfKkc3BOKVsRO5Ip8hNPUFquklnCZrDMKxFyKSWVRSBU48Q0PZ7dB7OnzCzYGN82AuBZOcDsq'
-}
+# Отправляем запрос
+response = requests.get(url, headers=headers)
 
-response = requests.post(url, headers=headers, json=data)
-print(response)
-
+# Проверяем статус ответа
 if response.status_code == 200:
-    token = response.json()['token']
-    print(f'Успешная аутентификация. Токен: {token}')
+    # Преобразуем ответ в JSON
+    data = response.json()
+
+    # Выводим категории товаров
+    for category in data['data']:
+        print(category['name'])
 else:
-    print(f'Ошибка при аутентификации: {response.status_code}')
+    print(f'Ошибка подключения: {response.status_code}')
